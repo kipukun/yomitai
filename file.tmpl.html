@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{{.File.Name}}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <style type="text/css">
+        .nav {
+            display: flex;
+            justify-content: center;
+        }
+
+        .reader {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .reader>img {
+            height: 100%;
+            width: auto;
+            margin: 0 auto;
+            max-width: 100%;
+        }
+
+        .left,
+        .right {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            top: 0;
+        }
+
+        .left:hover,
+        .right:hover {
+            cursor: pointer;
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            right: 0;
+        }
+    </style>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand mb-0 h1" href="/">Home</a>
+        <span id="head" class="navbar-text">Page 0 / {{.File.Len}}</span>
+    </nav>
+    <div class="reader">
+        <div class="left"></div>
+        <div class="right"></div>
+        <img id="view" src="{{.Hash}}/0" />
+    </div>
+</body>
+
+<script type="text/javascript">
+    var counter = 0
+    var img = document.getElementById("view")
+    var head = document.getElementById("head")
+    var set = function (dec) {
+        if (dec) {
+            counter--
+        } else {
+            counter++
+        }
+        console.log(counter)
+        img.src = "{{.Hash}}/" + counter
+        head.innerText = "Page " + counter + " / {{.File.Len}}"
+    }
+    document.querySelector(".right").onclick = function () {
+        if (counter -1 <= -1) {
+            return
+        }
+        set(true)
+    }
+    document.querySelector(".left").onclick = function () {
+        if (counter + 1 >{{.File.Len}}) {
+            return
+        }
+        set(false) 
+    }
+
+</script>
+
+</html>
